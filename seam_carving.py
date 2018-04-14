@@ -121,11 +121,8 @@ def remove_seam(img, seam):
 
 def resize(img, width=None, height=None):
     result = img
-    img_height, img_width = img.shape[:2]
-    dy = img_height - height if img_height - height > 0 else 0
-    dx = img_width - width if img_width - width > 0 else 0
 
-    for i in range(dx):
+    for i in range(width):
         energies = cumulate(sobel_energy(result))
         # energies = cumulate(canny_energy(result))
         # energies = cumulate(get_energy(result))
@@ -135,7 +132,7 @@ def resize(img, width=None, height=None):
 
     result = cv.transpose(result)
 
-    for i in range(dy):
+    for i in range(height):
         energies = cumulate(sobel_energy(result))
         # energies = cumulate(canny_energy(result))
         # energies = cumulate(get_energy(result))
@@ -154,8 +151,10 @@ def run(img):
 
     resize(
         img,
-        width=img_width - int(float(img_width) / 5),
-        height=img_height - int(float(img_height) / 8))
+        width=int(float(img_width) / 3),
+        # height=int(float(img_height) / 5)
+        height=0
+    )
 
 
 if __name__ == '__main__':
@@ -167,10 +166,10 @@ if __name__ == '__main__':
     # cv.namedWindow('1', cv.WINDOW_NORMAL)
     # cv.imshow('1', canny_energy(img))
     # cv.namedWindow('11', cv.WINDOW_NORMAL)
-    # cv.imshow('11', cumulate(canny_energy(img)).astype("uint8"))
+    # cv.imshow('11', cumulate(canny_energy(img)).astype("uint8"))  # 能量图
 
-    cv.namedWindow('sobel energy', cv.WINDOW_NORMAL)
-    cv.imshow('sobel energy', sobel_energy(img).astype("uint8"))
+    # cv.namedWindow('sobel energy', cv.WINDOW_NORMAL)
+    # cv.imshow('sobel energy', sobel_energy(img).astype("uint8"))
     # cv.namedWindow('22', cv.WINDOW_NORMAL)
     # cv.imshow('22', cumulate(sobel_energy(img)).astype("uint8"))
 
